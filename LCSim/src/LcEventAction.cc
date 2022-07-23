@@ -85,10 +85,11 @@ extern LcTreeHandler* RootTreeHandler;
 extern LcUserTraceCollection* userTraceCollection;
 extern LcUserTraceCollection* primTraceCollection;
 //extern LcUserTraceCollection* gammTraceCollection;
+#ifndef LAST
 #ifdef NOREFLECTOR
 int detectedCounter = 0;
 #endif /*NOREFLECTOR*/
-
+#endif //LAST
 #ifndef PHOTON_COUNTER
 LcEventAction::LcEventAction(int a):pmtCollID(-1),apdCollID(-1),csiCollID(-1),verbose(0),pmtThreshold(1)
 #else
@@ -279,11 +280,11 @@ void LcEventAction::EndOfEventAction(const G4Event* anEvent)
             (HitEvent.creatorProcessID).push_back(
                     primTraceCollection->GetTrace(aHit->GetTrackID())->GetCreatorProcessID());
             //G4cout << "check1" << G4endl;
-#ifndef NOREFLECTOR
+#if !defined(NOREFLECTOR) || defined(LAST)
             LcUserTrace* parentTrace=primTraceCollection->GetTrace(
                     primTraceCollection->GetTrace(aHit->GetTrackID())->GetParentTrackID());
             (HitEvent.creatorOfCreatorProcessID).push_back(parentTrace->GetCreatorProcessID());
-#else
+#elif defined(NOREFLECTOR)
             (HitEvent.creatorOfCreatorProcessID).push_back(-1);
 #endif /*NOREFLECTOR*/
             //G4cout << "check2" << G4endl;

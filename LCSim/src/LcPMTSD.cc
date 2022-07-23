@@ -76,6 +76,14 @@ G4bool LcPMTSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
 { 
     if(aStep->GetTrack()->GetDefinition() != G4OpticalPhoton::OpticalPhotonDefinition()) return false;
 
+
+
+#ifdef LAST
+    const G4int nEntries = 23;
+    G4double photonEnergySpectrum[nEntries] = {4.126*eV, 3.867*eV, 3.549*eV, 3.292*eV, 3.107*eV, 2.917*eV, 2.761*eV, 2.616*eV, 2.510*eV, 2.393*eV, 2.309*eV, 2.214*eV, 2.066*eV, 2.026*eV, 1.949*eV, 1.902*eV, 1.828*eV, 1.773*eV, 1.719*eV, 1.693*eV, 1.664*eV, 1.642*eV, 1.610*eV};
+    G4double efficiencyApd[nEntries] = {0.273, 0.325, 0.358, 0.369, 0.375, 0.346, 0.315, 0.286, 0.256, 0.215, 0.167, 0.125, 0.078, 0.061, 0.038, 0.027, 0.013, 0.005, 0.003, 0.002, 0.001, 0.0005, 0.0002};
+
+#else
     const G4int nEntries = 40;
     G4double photonEnergySpectrum[nEntries];
     for (G4int i = 0; i < nEntries; i++)
@@ -89,6 +97,7 @@ G4bool LcPMTSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
         0.783, 0.773, 0.761, 0.747, 0.732, 0.721, 0.707, 0.693, 0.681, 0.664, 
         0.646, 0.622, 0.594, 0.563, 0.546, 0.533, 0.524, 0.515, 0.509, 0.503
     }; // from Hamamatsu s8664 series apd 1012 data sheet
+#endif//LAST
     G4double diceRoll = CLHEP::RandFlat::shoot();
     
     G4double photonEnergy = aStep->GetTrack()->GetTotalEnergy();
@@ -114,14 +123,14 @@ G4bool LcPMTSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
 
     //G4double edep = aStep->GetTotalEnergyDeposit();
     G4double edep = photonEnergy;
-#ifndef NOREFLECTOR
+#if !defined(NOREFLECTOR) || defined(LAST)
     if(edep == 0.) return false;
 #endif /*NOREFLECTOR*/
     LcPMTHit* newHit = new LcPMTHit();
-#ifndef NOREFLECTOR
+#if !defined(NOREFLECTOR) || defined(LAST)
     newHit->SetWavelength(1.2398/edep/1000.);//conversion of photon energy to wavelength: 
                                              //lambda=hbar*c/E
-#else
+#elif !defined(LAST)
     newHit->SetWavelength(1234.8/aStep->GetTrack()->GetTotalEnergy());
 #endif /*NOREFLECTOR*/
     newHit->SetTrackLength(aStep->GetTrack()->GetTrackLength());

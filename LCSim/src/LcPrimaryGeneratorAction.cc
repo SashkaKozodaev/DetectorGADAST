@@ -34,14 +34,14 @@
 //  particleGun->SetParticleDefinition(particle);
 //  particleGun->SetParticleTime(0.0*ns);
 //  if (crType==1) // 17-cm crystal
-//    pos = 170.*posFrac/11.; 
+//    pos = 170.*posFrac/11.;
 //  else if (crType==2) // 18-cm crystal
-//    pos = 180.*posFrac/11.; 
+//    pos = 180.*posFrac/11.;
 //  else if (crType==3) // 22-cm crystal
-//    pos = 220.*posFrac/11.; 
+//    pos = 220.*posFrac/11.;
 //  // x-coordinate is approximately symmetric to .5 mm
-//  //particleGun->SetParticlePosition(G4ThreeVector(-10*mm,40.0*mm,pos*mm)); 
-//  particleGun->SetParticlePosition(G4ThreeVector(-10.0*mm, 60.0*mm, pos*mm)); 
+//  //particleGun->SetParticlePosition(G4ThreeVector(-10*mm,40.0*mm,pos*mm));
+//  particleGun->SetParticlePosition(G4ThreeVector(-10.0*mm, 60.0*mm, pos*mm));
 //  particleGun->SetParticleEnergy(0.662*MeV);//0.6620*MeV from the 137Cs source
 //  particleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,-1.0,0.0));
 //}
@@ -53,19 +53,26 @@ LcPrimaryGeneratorAction::LcPrimaryGeneratorAction(int crType, int posFrac)
   gunMessenger = new LcPrimaryGeneratorMessenger(this);
   //default kinematic  //
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-#ifndef NOREFLECTOR 
+#ifndef NOREFLECTOR
   G4ParticleDefinition* particle = particleTable->FindParticle("gamma");
+
+  //G4ParticleDefinition* particle = particleTable->FindParticle("opticalphoton");
+#elif defined(LAST)
+    G4ParticleDefinition* particle = particleTable->FindParticle("gamma");
 #else
-  G4ParticleDefinition* particle = particleTable->FindParticle("opticalphoton");
+    G4ParticleDefinition* particle = particleTable->FindParticle("opticalphoton");
 #endif /*NOREFLECTOR*/
   particleGun->SetParticleDefinition(particle);
   particleGun->SetParticleTime(0.0*ns);
   if (crType==1) // 17-cm crystal
-    pos = 170.*posFrac/11.; 
+    pos = 170.*posFrac/11.;
   else if (crType==2) // 18-cm crystal
-    pos = 180.*posFrac/11.; 
+    pos = 180.*posFrac/11.;
   else if (crType==3) // 22-cm crystal
-    pos = 220.*posFrac/11.; 
+    pos = 220.*posFrac/11.;
+#ifdef LAST
+  pos = 15. + (120.-16.)*posFrac/10.;
+#endif//LAST
   // x-coordinate is approximately symmetric to .5 mm
   //particleGun->SetParticlePosition(G4ThreeVector(-10*mm,40.0*mm,pos*mm));
   G4double xCoor = 0.0;
@@ -85,20 +92,37 @@ LcPrimaryGeneratorAction::LcPrimaryGeneratorAction(int crType, int posFrac)
   gammaDistY = -93.0;// mm
   gammaDistX =  -7.5;// mm
 #endif /*COLL_GAMMA*/
-#ifndef NOREFLECTOR 
-  //particleGun->SetParticlePosition(G4ThreeVector(-10.0*mm, 60.0*mm, pos*mm)); 
-  //particleGun->SetParticlePosition(G4ThreeVector(-10.0*mm, -60.0*mm, pos*mm)); 
-  particleGun->SetParticlePosition(G4ThreeVector(gammaDistX*mm, gammaDistY*mm, pos*mm)); 
+#ifndef NOREFLECTOR
+  //particleGun->SetParticlePosition(G4ThreeVector(-10.0*mm, 60.0*mm, pos*mm));
+  //particleGun->SetParticlePosition(G4ThreeVector(-10.0*mm, -60.0*mm, pos*mm));
+  particleGun->SetParticlePosition(G4ThreeVector(gammaDistX*mm, gammaDistY*mm, pos*mm));
   particleGun->SetParticleEnergy(0.662*MeV);//0.6620*MeV from the 137Cs source
   //particleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,-1.0,0.0));
   //particleGun->SetParticleMomentumDirection(G4ThreeVector(0.0, 1.0, 0.0));
   particleGun->SetParticleMomentumDirection(G4ThreeVector(xCoor, yCoor, zCoor));
-  printf(">>>>>> ParticleGun origin: %3.2f, %3.2f, %3.2f; ParticleGun direction: %3.2f, %3.2f, %3.2f\n",
-          gammaDistX, gammaDistY, pos, xCoor, yCoor, zCoor);
+  //printf(">>>>>> ParticleGun origin: %3.2f, %3.2f, %3.2f; ParticleGun direction: %3.2f, %3.2f, %3.2f\n",
+   //       gammaDistX, gammaDistY, pos, xCoor, yCoor, zCoor);
 #else
-  particleGun->SetParticlePosition(G4ThreeVector(-11.4125*mm, 17.045*mm, (170.0 + 20.0*(double)crType)*mm)); 
-  particleGun->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,-1.0));
+
+  particleGun->SetParticlePosition(G4ThreeVector(-11.4125*mm, 17.045*mm, (170.0 + 20.0*(double)crType)*mm));
+  particleGun->SetParticleMomentumDirection(G4ThreeVector(-1.0,0.0,0.0));
+#ifdef LAST
+  gammaDistY = 0.0;// mm
+  gammaDistX =  50.0;// mm
+  //pos = 50.0;
+  xCoor = -1.0;
+  yCoor = 0.0;
+  zCoor = 0.0;
+  particleGun->SetParticlePosition(G4ThreeVector((135.0- pos)*mm, 0.*mm, 5.0*mm));
+  particleGun->SetParticleMomentumDirection(G4ThreeVector(-1.0,0.0,0.0));
+  particleGun->SetParticleEnergy(0.662*MeV);
+#endif// LAST
 #endif /*NOREFLECTOR*/
+    printf(">>>>>> ParticleGun origin: %3.2f, %3.2f, %3.2f; ParticleGun direction: %3.2f, %3.2f, %3.2f\n",
+          gammaDistX, gammaDistY, pos, xCoor, yCoor, zCoor);
+
+    G4cout<< "Print photon Name !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<G4endl;
+    G4cout << particleGun->GetParticleDefinition()->GetParticleName()<<G4endl;;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -112,7 +136,8 @@ LcPrimaryGeneratorAction::~LcPrimaryGeneratorAction()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void LcPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-#ifdef NOREFLECTOR
+#ifndef LAST
+  #ifdef NOREFLECTOR
  #ifndef SIMPLE_OPTICS
   G4double redLimit = 800.0;// nm
   G4double blueLimit = 300.0;// nm
@@ -126,11 +151,11 @@ void LcPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   double rnd = 550.0;// nm
  #endif /*SIMPLE_OPTICS*/
   printf("wl = %f\n", rnd);
-  particleGun->SetParticleEnergy(
-          1239.8/rnd);// optical photon with 550 nm wavelength
+  particleGun->SetParticleEnergy(1239.8/rnd);// optical photon with 550 nm wavelength
 #endif /*NOREFLECTOR*/
-  G4double xCoor = 0.0;
-  G4double yCoor = 1.0;
+#endif //LAST
+  G4double xCoor = -1.0;
+  G4double yCoor = 0.0;
   G4double zCoor = 0.0;
 #ifdef COLL_GAMMA
   G4double omega = 0.010;// 10 msr
@@ -147,14 +172,17 @@ void LcPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   zCoor = sin(theta)*cos(phi);
   yCoor = cos(theta);
   particleGun->SetParticleMomentumDirection(G4ThreeVector(xCoor, yCoor, zCoor));
-  //printf(">>>>>> omega = %4.3f\n", omega);
+#ifdef LAST
+  particleGun->SetParticleMomentumDirection(G4ThreeVector(-1.0, 0.0, 0.0  ));
+#endif //LAST
+  //printf(">>>>>> omega = %4.3f\TRACESn", omega);
 #endif /*COLL_GAMMA*/
   //printf(">>>>>> xCoor = %3.2f, yCoor = %3.2f, zCoor = %3.2f\n", xCoor, yCoor, zCoor);
-  //printf(">>>>>> xCoor^2 + yCoor^2 + zCoor^2 = %3.2f\n", 
+  //printf(">>>>>> xCoor^2 + yCoor^2 + zCoor^2 = %3.2f\n",
   //        pow(xCoor, 2.0) + pow(yCoor, 2.0) + pow(zCoor, 2.0));
-  printf(">>>>>> ParticleGun direction: %3.2f, %3.2f, %3.2f\n", 
-          particleGun->GetParticleMomentumDirection().getX(), 
-          particleGun->GetParticleMomentumDirection().getY(), 
+  printf(">>>>>> ParticleGun direction: %3.2f, %3.2f, %3.2f\n",
+          particleGun->GetParticleMomentumDirection().getX(),
+          particleGun->GetParticleMomentumDirection().getY(),
           particleGun->GetParticleMomentumDirection().getZ());
     particleGun->GeneratePrimaryVertex(anEvent);
 }
@@ -174,17 +202,20 @@ void LcPrimaryGeneratorAction::SetOptPhotonPolar(G4double angle)
                "the particleGun is not an opticalphoton" << G4endl;
      return;
    }
-     	       
+
  G4ThreeVector normal (1., 0., 0.);
  G4ThreeVector kphoton = particleGun->GetParticleMomentumDirection();
- G4ThreeVector product = normal.cross(kphoton); 
+ G4ThreeVector product = normal.cross(kphoton);
  G4double modul2       = product*product;
- 
+
  G4ThreeVector e_perpend (0., 0., 1.);
- if (modul2 > 0.) e_perpend = (1./std::sqrt(modul2))*product; 
+ if (modul2 > 0.) e_perpend = (1./std::sqrt(modul2))*product;
  G4ThreeVector e_paralle    = e_perpend.cross(kphoton);
- 
+
  G4ThreeVector polar = std::cos(angle)*e_paralle + std::sin(angle)*e_perpend;
  particleGun->SetParticlePolarization(polar);
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+
+

@@ -50,28 +50,28 @@ void trapezeCsI(G4double *data, G4double *output);
 void trapezeLeft(G4double *dataCsI, G4double *output, G4double ESRThickness, G4double cut);
 void trapezeTop(G4double *dataCsI, G4double *output, G4double ESRThickness, G4double cut);
 G4int arg;
-/* 
+/*
    This class zorks using a code giving by the value of arg. It is a 3 digit number.
    The first number corresponds to geometry of the crystal:
-   config 1 = 22 cm length cristal 
+   config 1 = 22 cm length cristal
    config 2 = 18 cm length cristal
    config 3 = 17 cm length cristal
 
-   The second number corresponds to the fraction of treating surface:				
-   1 = 1/4 of the length cristal 
+   The second number corresponds to the fraction of treating surface:
+   1 = 1/4 of the length cristal
    2 = 1/2 of the length cristal
    3 = 3/4 of the length cristal
 
-   The third number corresponds to the surfaces treated:				
+   The third number corresponds to the surfaces treated:
    1 = no treatment
    2 = top treated
    3 = left treated
    4 = top bottom treated
-   5 = top left treated 
+   5 = top left treated
    6 = left right treated
    7 = top bottom left treated
    8 = top left right treated
-   9 = 4 surfaces treated  
+   9 = 4 surfaces treated
    */
 //--------------------------------------------------------------------------
 LcPMTSD* LcDetectorConstruction::pmt_SD;//SD
@@ -86,10 +86,10 @@ LcPhotonCounterSD* LcDetectorConstruction::photonCounterSD;
 #endif /*PHOTON_COUNTER*/
 
 //LcDetectorConstruction::LcDetectorConstruction(
-//        int inCrType, int inTapered, int inMatFrac, int inMatType, int inLambda, int inDetType, 
+//        int inCrType, int inTapered, int inMatFrac, int inMatType, int inLambda, int inDetType,
 //        int inFracTop, int inFracRight, int inFracBottom, int inFracLeft)
 LcDetectorConstruction::LcDetectorConstruction(
-        G4int inCrType, G4int inTapered, G4int inMatFrac, G4int inMatType, G4double inLambda, G4int inDetType, 
+        G4int inCrType, G4int inTapered, G4int inMatFrac, G4int inMatType, G4double inLambda, G4int inDetType,
         G4int inFracTop, G4int inFracRight, G4int inFracBottom, G4int inFracLeft,
         G4bool modelSwitch,
         G4double rindexOpticalGlue, G4double rindexEpoxyAPD,
@@ -137,22 +137,22 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4Element* elC = man->FindOrBuildElement(6);
     G4Element* elO = man->FindOrBuildElement(8);
     G4Element* elSi = man->FindOrBuildElement(14);
-    
+
     //------------Air
     G4Material* Air = man->FindOrBuildMaterial("G4_AIR");
 
     //------------Vacuum
     G4Material* galVacuum = man->FindOrBuildMaterial("G4_Galactic");
-    
+
     // -----------CsI (Scintillator)
     G4Material* CsI = man->FindOrBuildMaterial("G4_CESIUM_IODIDE");
-    
+
     // -----------ESR as Mylar(Reflector) --Oxygen above to be used
     G4Material* Mylar = man->FindOrBuildMaterial("G4_MYLAR");
-    
+
     //------------PlexiGlass of the PMT
     G4Material* Glass = man->FindOrBuildMaterial("G4_PLEXIGLASS");
-    
+
     //------------Ceramic casing of APD
     G4Material* Ceramic = man->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
 
@@ -165,7 +165,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 
     //------------Silicon APD
     G4Material* silicon = man->FindOrBuildMaterial("G4_Si");
-    
+
     //--------------------------------------------------------------------------
     // ------------ Generate & Add Material Properties Table ------------
     //--------------------------------------------------------------------------
@@ -196,31 +196,31 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         1.802, 1.804, 1.807, 1.810, 1.813, 1.816, 1.819, 1.822, 1.826, 1.829,
         1.833, 1.836, 1.840, 1.844, 1.848, 1.852, 1.856, 1.860, 1.865, 1.869,
         1.874, 1.879, 1.884, 1.889, 1.895}; // Li 1976, in nm
-    
+
     //G4double AbsorptionSpectrum[nEntriesCsI] = {44.446*cm,43.940*cm,43.462*cm,42.956*cm,42.458*cm,
     //    41.992*cm,41.541*cm,41.069*cm,40.578*cm,40.098*cm,39.596*cm,39.092*cm,38.581*cm,38.074*cm,37.556*cm,
     //    37.045*cm,36.527*cm,35.984*cm,34.434*cm,34.937*cm,43.483*cm,33.966*cm,33.343*cm,32.370*cm,31.376*cm,
     //    30.873*cm,30.608*cm,30.019*cm,29.241*cm,28.483*cm,27.837*cm,27.144*cm,26.442*cm,25.774*cm,25.002*cm,
     //    24.178*cm,23.325*cm,22.512*cm,21.310*cm,18.725*cm}; // correct order
     //G4double AbsorptionSpectrum[nEntriesCsI] = {
-    //    44.452*cm, 43.446*cm, 42.467*cm, 41.623*cm, 40.776*cm, 
-    //    39.975*cm, 39.176*cm, 38.416*cm, 37.684*cm, 36.975*cm, 
-    //    36.295*cm, 35.613*cm, 35.024*cm, 34.467*cm, 33.894*cm, 
-    //    33.193*cm, 32.151*cm, 31.254*cm, 30.836*cm, 30.595*cm, 
-    //    30.084*cm, 29.452*cm, 28.805*cm, 28.257*cm, 27.772*cm, 
-    //    27.270*cm, 26.776*cm, 26.306*cm, 25.863*cm, 25.369*cm, 
-    //    24.885*cm, 24.388*cm, 23.894*cm, 23.405*cm, 22.972*cm, 
+    //    44.452*cm, 43.446*cm, 42.467*cm, 41.623*cm, 40.776*cm,
+    //    39.975*cm, 39.176*cm, 38.416*cm, 37.684*cm, 36.975*cm,
+    //    36.295*cm, 35.613*cm, 35.024*cm, 34.467*cm, 33.894*cm,
+    //    33.193*cm, 32.151*cm, 31.254*cm, 30.836*cm, 30.595*cm,
+    //    30.084*cm, 29.452*cm, 28.805*cm, 28.257*cm, 27.772*cm,
+    //    27.270*cm, 26.776*cm, 26.306*cm, 25.863*cm, 25.369*cm,
+    //    24.885*cm, 24.388*cm, 23.894*cm, 23.405*cm, 22.972*cm,
     //    22.517*cm, 21.971*cm, 21.272*cm, 20.291*cm, 18.746*cm
     //};// correct order, correct spacing, measured sample
 #ifndef SIMPLE_OPTICS
     //G4double AbsorptionSpectrum[nEntriesCsI] = {
-    //    42.375*cm, 41.324*cm, 40.338*cm, 39.541*cm, 38.664*cm, 
-    //    37.836*cm, 37.036*cm, 36.278*cm, 35.556*cm, 34.856*cm, 
-    //    34.179*cm, 33.507*cm, 32.936*cm, 32.379*cm, 31.756*cm, 
-    //    31.001*cm, 29.875*cm, 29.069*cm, 28.643*cm, 28.307*cm, 
-    //    27.691*cm, 27.175*cm, 26.717*cm, 26.237*cm, 25.791*cm, 
-    //    25.334*cm, 24.891*cm, 24.450*cm, 24.007*cm, 23.528*cm, 
-    //    23.031*cm, 22.547*cm, 22.096*cm, 21.663*cm, 21.284*cm, 
+    //    42.375*cm, 41.324*cm, 40.338*cm, 39.541*cm, 38.664*cm,
+    //    37.836*cm, 37.036*cm, 36.278*cm, 35.556*cm, 34.856*cm,
+    //    34.179*cm, 33.507*cm, 32.936*cm, 32.379*cm, 31.756*cm,
+    //    31.001*cm, 29.875*cm, 29.069*cm, 28.643*cm, 28.307*cm,
+    //    27.691*cm, 27.175*cm, 26.717*cm, 26.237*cm, 25.791*cm,
+    //    25.334*cm, 24.891*cm, 24.450*cm, 24.007*cm, 23.528*cm,
+    //    23.031*cm, 22.547*cm, 22.096*cm, 21.663*cm, 21.284*cm,
     //    20.831*cm, 20.295*cm, 19.584*cm, 18.597*cm, 17.054*cm
     //};// correct order, correct spacing, measured crystal
     G4double* AbsorptionSpectrum = &fLambda->at(0);
@@ -248,18 +248,18 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     //CsITable->AddProperty("SLOWCOMPONENT",PhotonEnergy, ScintilSlow,     nEntries);
     CsITable->AddProperty("FASTCOMPONENT", PhotonEnergySpectrum, ScintilFastSpectrum, nEntriesCsI);
     CsITable->AddProperty("SLOWCOMPONENT", PhotonEnergySpectrum, ScintilFastSpectrum, nEntriesCsI);
-    //CsITable->AddConstProperty("SCINTILLATIONYIELD", 54000.0/MeV);
-    CsITable->AddConstProperty("SCINTILLATIONYIELD", 3.5748e4/(0.662*MeV));
-    //CsITable->AddConstProperty("SCINTILLATIONYIELD", 1.0e0/(0.662*MeV));
+    //CsITable->AddConstProperty("SCINTILLATIONYIELD", 54000.0/MeV);apezeCsI(G4double *data, G4double *output)
+    CsITable->AddConstProperty("SCINTILLATIONYIELD", 3.5748e3/(0.662*MeV));
+    //CsITable->AddConstProperty("SCINTILLATIONYIELD", 1.0e4/(0.662*MeV));
     CsITable->AddConstProperty("RESOLUTIONSCALE",0.01);
-    CsITable->AddConstProperty("YIELDRATIO",1.00); 
+    CsITable->AddConstProperty("YIELDRATIO",1.00);
     //CsITable->AddConstProperty("FASTTIMECONSTANT", 6.*ns);
     //CsITable->AddConstProperty("SLOWTIMECONSTANT",28.*ns);
     CsITable->AddConstProperty("FASTTIMECONSTANT", 0.68*us);
     CsITable->AddConstProperty("SLOWTIMECONSTANT", 3.34*us);
     CsI->SetMaterialPropertiesTable(CsITable);
 
-    // Air
+    // Air_dd
     G4double RefractiveIndex2[nEntries] =
     {1.00};
     G4MaterialPropertiesTable* AirTable = new G4MaterialPropertiesTable();
@@ -271,13 +271,13 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4MaterialPropertiesTable* galVacuumTable = new G4MaterialPropertiesTable();
     galVacuumTable->AddProperty("RINDEX", csiFlashCentroid, refractiveIndexVacuum, nEntries);
     galVacuum->SetMaterialPropertiesTable(galVacuumTable);
-    
+
     // Mylar
     G4double RefractiveIndexESR[nEntries] = {1.65};
     G4MaterialPropertiesTable* MylarTable = new G4MaterialPropertiesTable();
     MylarTable->AddProperty("RINDEX", PhotonEnergy, RefractiveIndexESR, nEntries);
     Mylar->SetMaterialPropertiesTable(MylarTable);
-    
+
     // Plexiglass
     //G4double RefractiveIndexPlexi[nEntries] = {1.465};
     //G4double RefractiveIndexPlexi[nEntries] = {1.53};
@@ -352,10 +352,10 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 //#else
 
     //Logical Volume
-    G4LogicalVolume* worldlog = new G4LogicalVolume(SldWorld, Air, "World");
+    G4LogicalVolume* worldlog = new G4LogicalVolume(SldWorld, Air, "worldlog");
 
     //Physical Volume
-    G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), worldlog, "world", 0, false, 0);
+    G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), worldlog, "physWorld", 0, false, 0);
 
 
 #ifdef PHOTON_COUNTER
@@ -392,100 +392,265 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     // ----------------------------//////------------------------------//
 
 
+#ifndef GADAST
 
-
-    //Trd1
-    G4double dx1 = 25.7*mm;
-    G4double dx2 = 41.3*mm;
-    G4double dy1 = 25.7*mm;
-    G4double dy2 = 72.6*mm;
+//Trd1
+    G4double dx1 = 26.7*mm;
+    G4double dx2 = 42.3*mm;
+    G4double dy1 = 26.7*mm;
+    G4double dy2 = 73.6*mm;
     G4double dz = 30.0*mm;
 
-    G4Trd* solidTrd1= new G4Trd("Trd1", dx1/2.0, dx2/2.0, dy1/2.0, dy2/2.0, dz/2.0);
+    G4Trd* solidTrd1= new G4Trd("solidTrd1", dx1/2.0, dx2/2.0, dy1/2.0, dy2/2.0, dz/2.0);
+
+//Trd3
+    G4double dxx1 = 25.7*mm;
+    G4double dxx2 = 41.3*mm;
+    G4double dyy1 = 25.7*mm;
+    G4double dyy2 = 72.6*mm;
+    G4double dzz = 30.0*mm;
+
+    G4Trd* solidTrd3= new G4Trd("solidTrd3", dxx1/2.0, dxx2/2.0, dyy1/2.0, dyy2/2.0, dzz/2.0);
+
+    G4VSolid* subtract1 = new G4SubtractionSolid("solidTrd1-solidTrd3", solidTrd1, solidTrd3, 0, G4ThreeVector(0.0, 0.0, 0.*cm));
+
+    //Logical Volume
+    //G4LogicalVolume* subTrd13 = new G4LogicalVolume(subtract1, Mylar, "subTrd13");
+
+
+//FixBox1
+    G4double lenFixBox11 = 25.7*mm;
+    G4double lenFixBox12 = 25.7*mm;
+    G4double lenFixBox13 = 40.0*mm;
+
+    G4Box* solidFixBox1= new G4Box("solidFixBox1", lenFixBox11/2.0, lenFixBox12/2.0 ,lenFixBox13/2.0);
+
+    G4VSolid*subtractHelp1  = new G4SubtractionSolid("subtract1-solidFixBox1", subtract1, solidFixBox1, 0, G4ThreeVector(0.0, 0.0, 0.0));
+
+    //Logical Volume
+    G4LogicalVolume* subTrd13 = new G4LogicalVolume(subtractHelp1, Mylar, "subTrd13");
+
+
 
 //Trd2
-    G4double da1 = 35.0*mm;
-    G4double da2 = 41.3*mm;
-    G4double db1 = 60.0*mm;
-    G4double db2 = 72.6*mm;
+    G4double da1 = 36.0*mm;
+    G4double da2 = 42.3*mm;
+    G4double db1 = 61.0*mm;
+    G4double db2 = 73.6*mm;
     G4double dc = 120.0*mm;
 
-    G4Trd* solidTrd2= new G4Trd("Trd2", da1/2.0, da2/2.0, db1/2.0, db2/2.0, dc/2.0);
+    G4Trd* solidTrd2= new G4Trd("solidTrd2", da1/2.0, da2/2.0, db1/2.0, db2/2.0, dc/2.0);
+
+//Trd4
+    G4double daa1 = 35.0*mm;
+    G4double daa2 = 41.3*mm;
+    G4double dbb1 = 60.0*mm;
+    G4double dbb2 = 72.6*mm;
+    G4double dcc = 120.0*mm;
+
+    G4Trd* solidTrd4= new G4Trd("solidTrd4", daa1/2.0, daa2/2.0, dbb1/2.0, dbb2/2.0, dcc/2.0);
+
+    G4VSolid* subtract2 = new G4SubtractionSolid("solidTrd2-solidTrd4", solidTrd2, solidTrd4, 0, G4ThreeVector(0.0, 0.0, 0.*cm));
+
+    //Logical Volume
+    G4LogicalVolume* subTrd24 = new G4LogicalVolume(subtract2, Mylar, "subTrd24");
 
     G4RotationMatrix* rotMatrix = new G4RotationMatrix();
     rotMatrix->rotateX(M_PI);
 
-    G4VSolid* unionTrd = new G4UnionSolid("Trd1+Trd2", solidTrd1, solidTrd2, rotMatrix, G4ThreeVector(0, 0, 0));
+    G4VSolid* unionTrd = new G4UnionSolid("Trd13+Trd24", subtractHelp1, subtract2, rotMatrix, G4ThreeVector(0.0, 0.0, 7.5*cm));
 
     //Logical Volume
-    G4LogicalVolume* unTrd = new G4LogicalVolume(unionTrd, Air, "World");
+    G4LogicalVolume* unTrd = new G4LogicalVolume(unionTrd, Mylar, "unTrd");
+    unTrd->SetVisAttributes(BWire);///COLOR
 
     //Physical Volume
-    //G4VPhysicalVolume* physTrd = new G4PVPlacement(0, G4ThreeVector(0, 0, 0), unTrd, "Trd", worldlog, false, 0);
+    G4VPhysicalVolume* physTrd = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.*cm), unTrd, "physTrd", logWorld, false, 0);
 
-    //Trd3
-    G4double dxx1 = 24.7*mm;
-    G4double dxx2 = 40.3*mm;
-    G4double dyy1 = 24.7*mm;
-    G4double dyy2 = 71.6*mm;
-    G4double dzz = 29.0*mm;
+    //Logical Volume int
+    G4VSolid* unionTrdint = new G4UnionSolid("unionTrdint3+unionTrdint4", solidTrd3, solidTrd4, rotMatrix, G4ThreeVector(0.0, 0.0, 7.5*cm));
 
-    G4Trd* solidTrd3= new G4Trd("Trd3", dxx1/2.0, dxx2/2.0, dyy1/2.0, dyy2/2.0, dzz/2.0);
+    G4LogicalVolume* unTrdint = new G4LogicalVolume(unionTrdint, CsI, "unTrdint");
+    unTrdint->SetVisAttributes(BWire);///COLOR
 
-    //Trd4
-    G4double daa1 = 34.0*mm;
-    G4double daa2 = 40.3*mm;
-    G4double dbb1 = 59.0*mm;
-    G4double dbb2 = 71.6*mm;
-    G4double dcc = 119.0*mm;
-
-    G4Trd* solidTrd2= new G4Trd("Trd2", da1/2.0, da2/2.0, db1/2.0, db2/2.0, dc/2.0);
-
-    G4RotationMatrix* rotMatrix = new G4RotationMatrix();
-    rotMatrix->rotateX(M_PI.0);
-
-    G4VSolid* unionTrd34 = new G4UnionSolid("Trd1+Trd2", solidTrd1, solidTrd2, rotMatrix, G4ThreeVector(0, 0, 0));
-
-    //Logical Volume
-    G4LogicalVolume* unTrd34 = new G4LogicalVolume(unionTrd34, Air, "World");
-
-    //Physical Volume
-    //G4VPhysicalVolume* physTrd = new G4PVPlacement(0, G4ThreeVector(0, 0, 0), unTrd34, "Trd", worldlog, false, 0);
-
-    G4VSolid* substract = new G4SubstractionSolid("unionTrd-unionTrd34", unionTrd, unionTrd34, 0, G4ThreeVector(0, 0, 0))
-
-    //Logical Volume
-    G4LogicalVolume* subTrd = new G4LogicalVolume(substractionTrd, Air, "World");
-
-    //Physical Volume
-    G4VPhysicalVolume* physTrd = new G4PVPlacement(0, G4ThreeVector(0, 0, 0), subTrd, "Trd", logWorld, false, 0);
+    //Physical Volume int
+    G4VPhysicalVolume* physTrdint = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.*cm), unTrdint, "physTrdint", logWorld, false, 0);
 
 
+    //
+// Glue
+    G4double lenG1 = 25.7*mm;
+    G4double lenG2 = 25.7*mm;
+    G4double lenG3 = 15.0*um;
+
+    G4Box* solidBoxGlue= new G4Box("solidBoxGlue", lenG1/2.0, lenG2/2.0 ,lenG3/2.0);
+
+    //Logical Volume Glue
+    G4LogicalVolume* logGlue = new G4LogicalVolume(solidBoxGlue, siliconeRubber, "logGlue");
+    logGlue->SetVisAttributes(BWire);///COLOR
+
+    //Physical Volume Glue
+    G4VPhysicalVolume* physGlue = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, -1.50075*cm), logGlue, "physGlue", logWorld, false, 0);
 
 
-    G4CSGSolid* newCSG = (G4CSGSolid*)physTrd->GetLogicalVolume()->GetSolid();
-    G4Trd* newTrd = (G4Trd*)newCSG;
-    G4double lenx1 = newTrd->GetXHalfLength1();
-    G4double lenx2 = newTrd->GetXHalfLength2();
-    G4double leny1 = newTrd->GetYHalfLength1();
-    G4double leny2 = newTrd->GetYHalfLength2();
-    G4double lenz = newTrd->GetZHalfLength();
+// Cube
+    G4double lenC1 = 35.0*mm;
+    G4double lenC2 = 60.0*mm;
+    G4double lenC3 = 1.0*mm;
 
-    G4ThreeVector vect = physTrd->GetObjectTranslation();
+    G4Box* solidCube= new G4Box("solidCube", lenC1/2.0, lenC2/2.0 ,lenC3/2.0);
 
-    G4cout<<"Trd length"<<lenx1<<" "<<lenx2<<" "<<leny1<<" "<<leny2<<" "<<lenz;
-    G4ThreeVector vector = physTrd->GetObjectTranslation();
-    G4cout<< vect;
+    //Logical Volume Cube
+    G4LogicalVolume* logCube = new G4LogicalVolume(solidCube, Mylar, "logCube");
+    logCube->SetVisAttributes(BWire);///COLOR
+
+    //Physical Volume Cube
+    G4VPhysicalVolume* physCube = new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 13.55*cm), logCube, "physCube", logWorld, false, 0);
 
 
 
+    ////--------------------------New Photon multiply detector-----------------------////
+
+// GLASS
+    G4double GlassLen1 = 25.7*mm;
+    G4double GlassLen2 = 25.7*mm;
+    G4double GlassLen3 = 0.1*mm;
+
+    G4Box* SldPmtglNEW = new G4Box("SldPmtglNEW", GlassLen1/2.0, GlassLen2/2.0,GlassLen3/2.0);
+
+    //Logical Volume Glass
+    G4Material* GLASS_PLANE = man->FindOrBuildMaterial("G4_GLASS_PLATE");
+    G4LogicalVolume* logPmtglNEW = new G4LogicalVolume(SldPmtglNEW, Glass ,"logPmtglNEW");
+
+    //Physical Volume Glass
+    G4VPhysicalVolume* physGLASSNEW = new G4PVPlacement( 0,G4ThreeVector(0,0,-1.5065*cm), logPmtglNEW,"physGLASSNEW",logWorld,false,0);
+
+// PMT
+    G4Box* SldPmtNEW = new G4Box("SldPmtNEW",GlassLen1/2.0,GlassLen2/2.0,2.*cm/2.0);
+
+    //Logical Volume PMT NEW
+    G4LogicalVolume* logPmtNEW = new G4LogicalVolume(SldPmtNEW,Air,"logPmtNEW");
+
+    //Physical Volume PMT NEW
+    G4VPhysicalVolume* physPMTNEW = new G4PVPlacement(0,G4ThreeVector(0, 0, -2.5115*cm), logPmtNEW,"physPMTNEW",logWorld,false,0);
+
+    // ??????????????????????????????????????WTF?????????????????????????????WTF???????????????????????????????????????????????????????
+    ///////////////////////////////////////////////Optical Surface/////////////////////////////////////////////////////////////////////
+    // ??????????????????????????????????????WTF?????????????????????????????WTF???????????????????????????????????????????????????????
 
 
+    //Optical properties
+    G4MaterialPropertiesTable* ESROpTableNEW = new G4MaterialPropertiesTable();
+
+    const G4int numNEW = 1;
+    G4double EphotonNEW[numNEW] = {1.7*eV};
+    //G4double sigma_alpha=0.1;
+    G4double sigma_alpha_polishedNEW = 0.077;
+    G4double sigma_alpha_unpolishedNEW = 0.162;
+    G4double RefractiveIndexNEW[numNEW] = {1.0};
+    //G4double SpecularLobe[num]    = {1};//refl. about facet normal //1
+    //G4double SpecularSpike[num]   = {0};//refl. about avg suface normal //0
+    G4double SpecularLobeNEW[numNEW]    = {0.5};//refl. about facet normal //1
+    G4double SpecularSpikeNEW[numNEW]   = {0.5};//refl. about avg suface normal //0
+    G4double BackscatterNEW[numNEW]     = {0};//refl. in groove, //diffuse lobe constant
+    G4double ReflectivityNEW[numNEW] = {0.98};
+    G4double EfficiencyNEW[numNEW]   = {0.02};
+
+    ESROpTableNEW->AddProperty("RINDEX", EphotonNEW, RefractiveIndexNEW, numNEW);
+    ESROpTableNEW->AddProperty("SPECULARLOBECONSTANT", EphotonNEW, SpecularLobeNEW,   numNEW);
+    ESROpTableNEW->AddProperty("SPECULARSPIKECONSTANT", EphotonNEW, SpecularSpikeNEW,   numNEW);
+    ESROpTableNEW->AddProperty("BACKSCATTERCONSTANT", EphotonNEW, BackscatterNEW,     numNEW);
+    ESROpTableNEW->AddProperty("REFLECTIVITY", EphotonNEW, ReflectivityNEW, numNEW);
+    ESROpTableNEW->AddProperty("EFFICIENCY",   EphotonNEW, EfficiencyNEW,   numNEW);
+
+     //UNUFIED
+    //Polished Surface dielectric_metal
+    G4OpticalSurface* OpESRSurface_polishedNEW;
+
+    OpESRSurface_polishedNEW = new G4OpticalSurface("OpESRSurface_polishedNEW");
+    OpESRSurface_polishedNEW->SetType(dielectric_metal);
+    OpESRSurface_polishedNEW->SetFinish(polished);
+    OpESRSurface_polishedNEW->SetModel(unified);
+    OpESRSurface_polishedNEW->SetMaterialPropertiesTable(ESROpTableNEW);
+
+    //Ground Surface dielectric_metal
+    G4OpticalSurface* OpESRSurface_groundNEW;
+
+    G4double sigma_alpha_unpolished_NEW = 0.162;
+
+    OpESRSurface_groundNEW = new G4OpticalSurface("OpESRSurface_groundNEW");
+    OpESRSurface_groundNEW->SetType(dielectric_metal);
+    OpESRSurface_groundNEW->SetFinish(ground);
+    OpESRSurface_groundNEW->SetModel(unified);
+    OpESRSurface_groundNEW->SetSigmaAlpha(sigma_alpha_unpolished_NEW);
+    OpESRSurface_groundNEW->SetMaterialPropertiesTable(ESROpTableNEW);
+
+    //Polished Surface dielectric_dielectric
+    G4OpticalSurface* OpESRSurface_polished_ddNEW;
+
+    OpESRSurface_polished_ddNEW = new G4OpticalSurface("OpESRSurface_polished_ddNEW");
+    OpESRSurface_polished_ddNEW->SetType(dielectric_dielectric);
+    OpESRSurface_polished_ddNEW->SetFinish(polished);
+    OpESRSurface_polished_ddNEW->SetModel(unified);
+    OpESRSurface_polished_ddNEW->SetMaterialPropertiesTable(ESROpTableNEW);
+
+    //LUT
+    G4MaterialPropertiesTable* ESROpTableLUTNEW = new G4MaterialPropertiesTable();
+
+    const G4int numLUTNEW = 1;
+    G4double EphotonLUTNEW[numLUTNEW] = {1.7*eV};
+    G4double sigma_alpha_polishedLUTNEW = 0.077;
+    G4double sigma_alpha_unpolishedLUTNEW = 0.162;
+    G4double RefractiveIndexLUTNEW[numLUTNEW] = {1.0};
+    G4double SpecularLobeLUTNEW[numLUTNEW]    = {0.5};//refl. about facet normal //1
+    G4double SpecularSpikeLUTNEW[numLUTNEW]   = {0.5};//refl. about avg suface normal //0
+    G4double BackscatterLUTNEW[numLUTNEW]     = {0};//refl. in groove, //diffuse lobe constant
+    G4double ReflectivityLUTNEW[numLUTNEW] = {0.98};
+    G4double EfficiencyLUTNEW[numLUTNEW]   = {0.02};
+
+    ESROpTableLUTNEW->AddProperty("RINDEX", EphotonLUTNEW, RefractiveIndexLUTNEW, numLUTNEW);
+    ESROpTableLUTNEW->AddProperty("REFLECTIVITY", EphotonLUTNEW, ReflectivityLUTNEW, numLUTNEW);
+    ESROpTableLUTNEW->AddProperty("EFFICIENCY",   EphotonLUTNEW, EfficiencyLUTNEW,   numLUTNEW);
+
+    G4OpticalSurface* OpESRSurface_groundLUTNEW;
+
+    OpESRSurface_groundLUTNEW = new G4OpticalSurface("ESRSurface_ground");
+    OpESRSurface_groundLUTNEW->SetType(dielectric_LUTDAVIS);
+    OpESRSurface_groundLUTNEW->SetFinish(RoughESR_LUT);
+    //OpESRSurface_ground->SetMaterialPropertiesTable(ESROpTable);
+    OpESRSurface_groundLUTNEW->SetMaterialPropertiesTable(ESROpTableLUTNEW);
+    OpESRSurface_groundLUTNEW->SetModel(DAVIS);
+
+    // joints between volumes
+
+    G4LogicalBorderSurface* PMTGLASS = new G4LogicalBorderSurface("PMTGLASS",physGLASSNEW,physPMTNEW,OpESRSurface_polishedNEW);
+    G4LogicalBorderSurface* GLASSGlue = new G4LogicalBorderSurface("GLASSGlue",physGlue,physGLASSNEW,OpESRSurface_polished_ddNEW);
+    G4LogicalBorderSurface* GlueTrd = new G4LogicalBorderSurface("GlueTrdint",physTrdint,physGlue, OpESRSurface_polished_ddNEW);
+    G4LogicalBorderSurface* TrdTrdint = new G4LogicalBorderSurface("TrdTrdint",physTrdint,physTrd,OpESRSurface_groundLUTNEW);
+    G4LogicalBorderSurface* TrdCube = new G4LogicalBorderSurface("TrdCube",physTrdint,physCube,OpESRSurface_polishedNEW);
+
+    //G4cout<<"@@@@@@@@@@@@@@@@ CHECK PMT PROPERTY @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"<<G4endl;
+    //G4cout<<TrdTrdint-> GetSurfaceProperty()->GetType()<<G4endl;
+
+    /// --------------Sensitive Detector-------------------------------------------------
+
+    G4SDManager* SDman = G4SDManager::GetSDMpointer();// is G4manager class for sensitive detectors
+    if(!pmt_SD){//check if pmt_SD does not exists otherwise create it
+            pmt_SD = new LcPMTSD("PMT1");
+            SDman->AddNewDetector(pmt_SD); //now we've created the SD so it exists(no doubt)
+    }
+    logPmtNEW->SetSensitiveDetector(pmt_SD);
+    ///------------------------------------------------------------------------------------
+
+    //physPMTNEW->CheckOverlaps();
+    //G4LogicalSkinSurface* LogSkinSurf = new G4LogicalSkinSurface("LogSkinSurf", unTrdint, OpESRSurface_polishedNEW);
 
 
-
-
-
+    if(!CsI_SD){//check if CsI_SD does not exists otherwise create it
+          CsI_SD = new LcCsISD("CsI1");
+          SDman->AddNewDetector(CsI_SD);//now we've created the SD so it exists(no doubt)
+          unTrdint->SetSensitiveDetector(CsI_SD);
+    }
 
 
 
@@ -496,7 +661,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 
     // ----------------------------//////------------------------------//
 
-
+#endif //GADAST
 
     //--------------------------------------------------------------------------
     // DATA OF THE SYSTEM
@@ -515,7 +680,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     cut = 0.0;
 
     //int config = (int) arg/100;
-    /* config 1 = 22 cm length cristal 
+    /* config 1 = 22 cm length cristal
        config 2 = 18 cm length cristal
        config 3 = 17 cm length cristal
        */
@@ -551,7 +716,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         zs4 = 55*mm;
     }
     arg = arg - config*100;
-    /* 1 = 1/4 of the length cristal 
+    /* 1 = 1/4 of the length cristal
        2 = 1/2 of the length cristal
        3 = 3/4 of the length cristal
        */
@@ -591,11 +756,12 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 #else
     G4LogicalVolume* logCsI1 = new G4LogicalVolume(CsITra1,CsI,"CsI",0,0,0);
 #endif /*MATERIAL_VACUUM*/
+#ifndef LAST
     G4VPhysicalVolume* PhyCsI1 = new G4PVPlacement(
             zRot,G4ThreeVector(-outputCsI[7],outputCsI[8],outputCsI[9]),logCsI1,"CsI",logWorld,false,0);
     G4cout << "**************************************************\n";
     G4cout << ">>>>>>>>>> CsI geometry:\n";
-    G4cout 
+    G4cout
         << "2*pDz=" << 2.0*outputCsI[0]
         << "; 2*pDy1 = " << 2.0*outputCsI[3]
         << "; 2*pDx1 = " << 2.0*outputCsI[4]
@@ -619,10 +785,11 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         << "; v3.phi() = " << v3.phi()/deg
         << " deg"
         << G4endl;
+#endif //LAST
 ///////////////////////////////////////////////////////////////////////////////
 // geometry test
 ///////////////////////////////////////////////////////////////////////////////
-//    
+//
 //    G4double rotAngle = 5.0*deg;
 //    G4double testLength = 100.0*mm;
 //    G4double testThck = 10.0*mm;
@@ -633,13 +800,13 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 //    G4RotationMatrix* testRot = new G4RotationMatrix;
 //    testRot ->rotateY(0.0*deg);
 //    G4VPhysicalVolume* phyPara = new G4PVPlacement(
-//            testRot, 
-//            G4ThreeVector(-1.0*(0.5*testLength*tan(rotAngle) + testThck/2.0), 0.0, 0.0), 
+//            testRot,
+//            G4ThreeVector(-1.0*(0.5*testLength*tan(rotAngle) + testThck/2.0), 0.0, 0.0),
 //            logPara, "phyPara", logWorld, false, 0);
 //    G4Box* testBox = new G4Box("testbox", testBoxSize/2.0, testBoxSize/2.0, testBoxSize/2.0);
 //    G4LogicalVolume* logTestBox = new G4LogicalVolume(testBox, galVacuum, "logTestBox", 0, 0, 0);
 //    G4VPhysicalVolume* phytestBox = new G4PVPlacement(
-//            0, G4ThreeVector(0.0, 0.0, testLength/2.0 + testBoxSize/2.0), 
+//            0, G4ThreeVector(0.0, 0.0, testLength/2.0 + testBoxSize/2.0),
 //            logTestBox, "phytestBox", logWorld, false, 0);
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -650,22 +817,22 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4double cutLeft   = fabs(z2*(1 - ((G4double)fracLeft)/4.0) - 1.0*um);
 
 #ifndef NOREFLECTOR
-    // FRONT REFLECTOR 
+    // FRONT REFLECTOR
     G4Box* SldESRFront = new G4Box(
             "ESRFront",x2/2.0+ESRThickness, y2/2.0+ESRThickness,ESRThickness/2.0);
     G4LogicalVolume*   logESRFront  = new G4LogicalVolume(SldESRFront,Mylar,"ESRFront",0,0,0);
     G4VPhysicalVolume* PhyESRFront  = new G4PVPlacement(
             zRot,G4ThreeVector(-x2/2.0, y2/2.0, z2+ESRThickness/2.0),
             logESRFront,"PhyESRFront",logWorld,false,0);
-    
+
     G4LogicalVolume*   logESRFrontTopLayer  = new G4LogicalVolume(
 		    SldESRFront, Mylar, "ESRFrontTopLayer", 0, 0, 0);
     G4VPhysicalVolume* PhyESRFrontTopLayer  = new G4PVPlacement(
             zRot, G4ThreeVector(-x2/2.0, y2/2.0, z2 + ESRThickness*1.5),
             logESRFrontTopLayer, "PhyESRFrontTopLayer", logWorld, false, 0);
 
-    // RIGHT1 REFLECTORapezeCsI(G4double *data, G4double *output)
-{
+    // RIGHT1 REFLECTOR
+
     G4double outputR1[10] = {0.0};
     G4double zCutRight;
     if (matType < 10)
@@ -689,7 +856,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4VPhysicalVolume* PhyESRRight1  = new G4PVPlacement(
             zRot,G4ThreeVector(outputR1[7],outputR1[8],2.0*outputCsI[9]-outputR1[9]),
             logESRRight1,"ESRRight1",logWorld,false,0);
-    
+
     G4LogicalVolume*   logESRRight1TopLayer  = new G4LogicalVolume(
 		    SldESRRight1, Mylar, "ESRr1TopLayer", 0, 0, 0);
     G4VPhysicalVolume* PhyESRRight1TopLayer  = new G4PVPlacement(
@@ -714,7 +881,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4VPhysicalVolume* PhyESRRight2  = new G4PVPlacement(
             zRot,G4ThreeVector(outputR2[7],outputR2[8],outputR2[9]),
             logESRRight2,"ESRRight2",logWorld,false,0);
-    
+
     G4LogicalVolume*   logESRRight2TopLayer  = new G4LogicalVolume(
 		    SldESRRight2, Mylar, "ESRr2TopLayer", 0, 0, 0);
     G4VPhysicalVolume* PhyESRRight2TopLayer  = new G4PVPlacement(
@@ -749,11 +916,11 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4VPhysicalVolume* PhyESRBottom1  = new G4PVPlacement(
             zRot,G4ThreeVector(-outputB1[7],-outputB1[8],2*outputCsI[9]-outputB1[9]),
             logESRBottom1,"ESRBottom1",logWorld,false,0);
-    
+
     G4LogicalVolume*   logESRBottom1TopLayer  = new G4LogicalVolume(
 		    SldESRBottom1, Mylar, "ESRb1TopLayer", 0, 0, 0);
     G4VPhysicalVolume* PhyESRBottom1TopLayer  = new G4PVPlacement(
-            zRot, 
+            zRot,
 	    G4ThreeVector(-outputB1[7], -outputB1[8] - ESRThickness, 2*outputCsI[9] - outputB1[9]),
             logESRBottom1TopLayer, "ESRBottom1", logWorld, false, 0);
 
@@ -774,11 +941,11 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4VPhysicalVolume* PhyESRBottom2  = new G4PVPlacement(
             zRot,G4ThreeVector(-outputB2[7],-outputB2[8],outputB2[9]),
             logESRBottom2,"ESRBottom2",logWorld,false,0);
-    
+
     G4LogicalVolume*   logESRBottom2TopLayer  = new G4LogicalVolume(
 		    SldESRBottom2, Mylar, "ESRb2TopLayer", 0, 0, 0);
     G4VPhysicalVolume* PhyESRBottom2TopLayer  = new G4PVPlacement(
-            zRot, 
+            zRot,
 	    G4ThreeVector(-outputB2[7], -outputB2[8] - ESRThickness, outputB2[9]),
             logESRBottom2TopLayer, "ESRBottom2", logWorld, false, 0);
 
@@ -810,14 +977,14 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
                 yzRot,
                 G4ThreeVector(outputL1[11] - outputL1[7], outputL1[8], 2.0*outputCsI[9] - zCutLeft/2.0),
                 logESRLeft1,"ESRLeft1",logWorld,false,0);
-    
+
     G4LogicalVolume* logESRLeft1TopLayer  = new G4LogicalVolume(
 		    SldESRLeft1, Mylar, "ESRl1TopLayer", 0, 0, 0);
     G4VPhysicalVolume* PhyESRLeft1TopLayer = new G4PVPlacement(
                 yzRot,
                 G4ThreeVector(
-                        outputL1[11] - outputL1[7] - ESRThickness, 
-                        outputL1[8], 
+                        outputL1[11] - outputL1[7] - ESRThickness,
+                        outputL1[8],
                         2.0*outputCsI[9] - zCutLeft/2.0),
                 logESRLeft1TopLayer, "ESRLeft1TopLayer", logWorld, false, 0);
 
@@ -843,8 +1010,8 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4VPhysicalVolume* PhyESRLeft2TopLayer = new G4PVPlacement(
                 yzRot,
                 G4ThreeVector(
-                        outputL1[12] - outputL2[7] - ESRThickness, 
-                        outputL2[8], 
+                        outputL1[12] - outputL2[7] - ESRThickness,
+                        outputL2[8],
                         outputCsI[9] - zCutLeft/2.0),
                 logESRLeft2TopLayer, "ESRLeft2TopLayer", logWorld, false, 0);
 
@@ -872,7 +1039,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
             outputT1[6]*mm, outputT1[6]*mm,
             0.0*deg);
     G4LogicalVolume*   logESRTop1  = new G4LogicalVolume (SldESRTop1,Mylar,"ESRt1",0,0,0);
-    
+
     G4LogicalVolume*   logESRTop1TopLayer  = new G4LogicalVolume(
 		    SldESRTop1, Mylar, "ESRt1TopLayer", 0, 0, 0);
     G4VPhysicalVolume* PhyESRTop1 = new G4PVPlacement(
@@ -881,8 +1048,8 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4VPhysicalVolume* PhyESRTop1TopLayer = new G4PVPlacement(
                 xzRot,
                 G4ThreeVector(
-                        -outputT1[7], 
-                        outputT1[11] + outputT1[8] + ESRThickness, 
+                        -outputT1[7],
+                        outputT1[11] + outputT1[8] + ESRThickness,
                         2.0*outputCsI[9] - zCutTop/2.0),
                 logESRTop1TopLayer, "ESRtop1TopLayer", logWorld, false, 0);
 
@@ -900,18 +1067,18 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
             outputT2[6]*mm, outputT2[6]*mm,
             0.0*deg);
     G4LogicalVolume*   logESRTop2  = new G4LogicalVolume (SldESRTop2,Mylar,"ESRt2",0,0,0);
-    
+
     G4LogicalVolume*   logESRTop2TopLayer  = new G4LogicalVolume(
 		    SldESRTop2, Mylar, "ESRt2TopLayer", 0, 0, 0);
-    
+
     G4VPhysicalVolume* PhyESRTop2 = new G4PVPlacement(
                 xzRot,G4ThreeVector(-outputT2[7],outputT1[12]+outputT2[8],outputCsI[9]-zCutTop/2.0),
                 logESRTop2,"ESRtop2",logWorld,false,0);
     G4VPhysicalVolume* PhyESRTop2TopLayer = new G4PVPlacement(
                 xzRot,
                 G4ThreeVector(
-                        -outputT2[7], 
-                        outputT1[12] + outputT2[8] + ESRThickness, 
+                        -outputT2[7],
+                        outputT1[12] + outputT2[8] + ESRThickness,
                         outputCsI[9] - zCutTop/2.0),
                 logESRTop2TopLayer, "ESRtop2TopLayer", logWorld, false, 0);
 #endif /*NOREFLECTOR*/
@@ -924,12 +1091,12 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     //G4double sigma_alpha=0.1;
     G4double sigma_alpha_polished = 0.077;
     G4double sigma_alpha_unpolished = 0.162;
-    G4double RefractiveIndex[num] = {1.0};  
+    G4double RefractiveIndex[num] = {1.0};
     //G4double SpecularLobe[num]    = {1};//refl. about facet normal //1
     //G4double SpecularSpike[num]   = {0};//refl. about avg suface normal //0
     G4double SpecularLobe[num]    = {0.5};//refl. about facet normal //1
     G4double SpecularSpike[num]   = {0.5};//refl. about avg suface normal //0
-    G4double Backscatter[num]     = {0};//refl. in groove, //diffuse lobe constant 
+    G4double Backscatter[num]     = {0};//refl. in groove, //diffuse lobe constant
     //G4double Reflectivity[num] = {0.98};
     //G4double Efficiency[num]   = {0.02};
     G4double Reflectivity[num] = {0.9974};
@@ -944,7 +1111,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     ESROpTable->AddProperty("BACKSCATTERCONSTANT", Ephoton, Backscatter,     num);
     ESROpTable->AddProperty("REFLECTIVITY", Ephoton, Reflectivity, num);
     ESROpTable->AddProperty("EFFICIENCY",   Ephoton, Efficiency,   num);
-    
+
     G4MaterialPropertiesTable* ESROpTableLUT = new G4MaterialPropertiesTable();
     ESROpTableLUT->AddProperty("RINDEX", Ephoton, RefractiveIndex, num);
     ESROpTableLUT->AddProperty("REFLECTIVITY", Ephoton, Reflectivity, num);
@@ -953,7 +1120,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4OpticalSurface* OpESRSurfaceTop_polished = new G4OpticalSurface("OpFoilSurface_polished");
     OpESRSurfaceTop_polished->SetType(dielectric_metal);
     OpESRSurfaceTop_polished->SetFinish(polished);
-    OpESRSurfaceTop_polished->SetModel(unified); 
+    OpESRSurfaceTop_polished->SetModel(unified);
     OpESRSurfaceTop_polished->SetMaterialPropertiesTable(ESROpTable);
 
     G4OpticalSurface* OpESRSurface_polished;
@@ -968,7 +1135,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
             OpESRSurface_polished->SetType(dielectric_metal);
             OpESRSurface_polished->SetFinish(polished);
             //OpESRSurface_polished->SetFinish(ground);
-            OpESRSurface_polished->SetModel(unified); 
+            OpESRSurface_polished->SetModel(unified);
             //OpESRSurface_polished->SetSigmaAlpha(sigma_alpha);
             //OpESRSurface_polished->SetSigmaAlpha(sigma_alpha_polished);
             OpESRSurface_polished->SetMaterialPropertiesTable(ESROpTable);
@@ -976,7 +1143,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
             OpESRSurface_ground = new G4OpticalSurface("ESRSurface_ground");
             OpESRSurface_ground->SetType(dielectric_metal);
             OpESRSurface_ground->SetFinish(ground);
-            OpESRSurface_ground->SetModel(unified); 
+            OpESRSurface_ground->SetModel(unified);
             //OpESRSurface_ground->SetSigmaAlpha(sigma_alpha);
             OpESRSurface_ground->SetSigmaAlpha(sigma_alpha_unpolished);
             OpESRSurface_ground->SetMaterialPropertiesTable(ESROpTable);
@@ -991,13 +1158,13 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
             //OpESRSurface_polished->SetFinish(Polished_LUT);
             OpESRSurface_polished->SetMaterialPropertiesTable(ESROpTableLUT);
             OpESRSurface_polished->SetModel(DAVIS);
-            
+
             //G4OpticalSurface* OpESRSurface_polished_back = new G4OpticalSurface("ESRSurface_polished_back");
             //OpESRSurface_polished_back->SetType(dielectric_LUTDAVIS);
             //OpESRSurface_polished_back->SetFinish(Polished_LUT);
             //OpESRSurface_polished_back->SetMaterialPropertiesTable(ESROpTableLUT);
             //OpESRSurface_polished_back->SetModel(DAVIS);
-            
+
             OpESRSurface_ground = new G4OpticalSurface("ESRSurface_ground");
             OpESRSurface_ground->SetType(dielectric_LUTDAVIS);
             OpESRSurface_ground->SetFinish(RoughESR_LUT);
@@ -1005,7 +1172,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
             //OpESRSurface_ground->SetMaterialPropertiesTable(ESROpTable);
             OpESRSurface_ground->SetMaterialPropertiesTable(ESROpTableLUT);
             OpESRSurface_ground->SetModel(DAVIS);
-            
+
             //G4OpticalSurface* OpESRSurface_ground_back = new G4OpticalSurface("ESRSurface_ground_back");
             //OpESRSurface_ground_back->SetType(dielectric_LUTDAVIS);
             //OpESRSurface_ground_back->SetFinish(Rough_LUT);
@@ -1032,17 +1199,17 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     OpGLSurface_polished->SetType(dielectric_metal);
     OpGLSurface_polished->SetFinish(polished);
     //OpGLSurface_polished->SetFinish(ground);
-    OpGLSurface_polished->SetModel(unified); 
+    OpGLSurface_polished->SetModel(unified);
     //OpGLSurface_polished->SetSigmaAlpha(sigma_alpha);
     //OpGLSurface_polished->SetSigmaAlpha(sigma_alpha_polished);
     OpGLSurface_polished->SetMaterialPropertiesTable(GLOpTable);
-    
+
 #ifndef NOREFLECTOR
     new G4LogicalBorderSurface("ESRSurfaceFront", PhyCsI1,     PhyESRFront, OpESRSurface_polished);
     //new G4LogicalBorderSurface("ESRSurfaceFront", PhyESRFront, PhyCsI1,     OpESRSurface_polished_back);
     new G4LogicalBorderSurface(
             "ESRSurfaceFront", PhyESRFront, PhyESRFrontTopLayer, OpESRSurfaceTop_polished);
-            
+
     new G4LogicalBorderSurface(
             "ESRSurfaceBot2TopLayer",   PhyESRBottom2, PhyESRBottom2TopLayer, OpESRSurfaceTop_polished);
     new G4LogicalBorderSurface(
@@ -1051,7 +1218,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
             "ESRSurfaceTop2TopLayer",   PhyESRTop2,    PhyESRTop2TopLayer,    OpESRSurfaceTop_polished);
     new G4LogicalBorderSurface(
             "ESRSurfaceLeft2TopLayer",  PhyESRLeft2,   PhyESRLeft2TopLayer,   OpESRSurfaceTop_polished);
-        
+
     new G4LogicalBorderSurface(
             "ESRSurfaceBot1TopLayer",   PhyESRBottom1, PhyESRBottom1TopLayer, OpESRSurfaceTop_polished);
     new G4LogicalBorderSurface(
@@ -1067,7 +1234,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight1", PhyCsI1, PhyESRRight1,  OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceTop1",   PhyCsI1, PhyESRTop1,    OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceLeft1",  PhyCsI1, PhyESRLeft1,   OpESRSurface_polished);
-        
+
         //new G4LogicalBorderSurface(
         //        "ESRSurfaceBot1Back",   PhyESRBottom1, PhyCsI1, OpESRSurface_polished_back);
         //new G4LogicalBorderSurface(
@@ -1083,7 +1250,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2", PhyCsI1, PhyESRRight2,  OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceTop2",   PhyCsI1, PhyESRTop2,    OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",  PhyCsI1, PhyESRLeft2,   OpESRSurface_polished);
-        
+
         //new G4LogicalBorderSurface(
         //        "ESRSurfaceBot2Back",   PhyESRBottom2, PhyCsI1, OpESRSurface_polished_back);
         //new G4LogicalBorderSurface(
@@ -1098,7 +1265,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
        2 = top treated
        3 = left treated
        4 = top bottom treated
-       5 = top left treated 
+       5 = top left treated
        6 = left right treated
        7 = top bottom left treated
        8 = top left right treated
@@ -1114,7 +1281,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_polished);
 
-        logESRBottom2 ->SetVisAttributes(Gr1Solid); 
+        logESRBottom2 ->SetVisAttributes(Gr1Solid);
         logESRRight2 ->SetVisAttributes(Gr1Solid);
         logESRTop2 ->SetVisAttributes(Gr1Solid);
         logESRLeft2 ->SetVisAttributes(Gr1Solid);
@@ -1125,10 +1292,10 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_polished);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceTop2Back", PhyESRTop2, PhyCsI1, OpESRSurface_ground_back);
 
-        logESRBottom2 ->SetVisAttributes(Gr1Solid); 
+        logESRBottom2 ->SetVisAttributes(Gr1Solid);
         logESRRight2 ->SetVisAttributes(Gr1Solid);
         logESRTop2 ->SetVisAttributes(RSolid);
         logESRLeft2 ->SetVisAttributes(Gr1Solid);
@@ -1139,10 +1306,10 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_ground);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceLeft2Back", PhyESRLeft2, PhyCsI1, OpESRSurface_ground_back);
 
-        logESRBottom2 ->SetVisAttributes(Gr1Solid); 
+        logESRBottom2 ->SetVisAttributes(Gr1Solid);
         logESRRight2 ->SetVisAttributes(Gr1Solid);
         logESRTop2 ->SetVisAttributes(Gr1Solid);
         logESRLeft2 ->SetVisAttributes(RSolid);
@@ -1153,11 +1320,11 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_polished);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceBot2Back", PhyESRBottom2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceTop2Back", PhyESRTop2, PhyCsI1, OpESRSurface_ground_back);
 
-        logESRBottom2 ->SetVisAttributes(RSolid); 
+        logESRBottom2 ->SetVisAttributes(RSolid);
         logESRRight2 ->SetVisAttributes(Gr1Solid);
         logESRTop2 ->SetVisAttributes(RSolid);
         logESRLeft2 ->SetVisAttributes(Gr1Solid);
@@ -1168,11 +1335,11 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_ground);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceTop2Back", PhyESRTop2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceLeft2Back", PhyESRLeft2, PhyCsI1, OpESRSurface_ground_back);
 
-        logESRBottom2 ->SetVisAttributes(Gr1Solid); 
+        logESRBottom2 ->SetVisAttributes(Gr1Solid);
         logESRRight2 ->SetVisAttributes(Gr1Solid);
         logESRTop2 ->SetVisAttributes(RSolid);
         logESRLeft2 ->SetVisAttributes(RSolid);
@@ -1183,11 +1350,11 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_ground);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceRight2Back", PhyESRRight2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceLeft2Back", PhyESRLeft2, PhyCsI1, OpESRSurface_ground_back);
 
-        logESRBottom2 ->SetVisAttributes(Gr1Solid); 
+        logESRBottom2 ->SetVisAttributes(Gr1Solid);
         logESRRight2 ->SetVisAttributes(RSolid);
         logESRTop2 ->SetVisAttributes(Gr1Solid);
         logESRLeft2 ->SetVisAttributes(RSolid);
@@ -1198,12 +1365,12 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_polished);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_ground);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceBot2Back", PhyESRBottom2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceTop2Back", PhyESRTop2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceLeft2Back", PhyESRLeft2, PhyCsI1, OpESRSurface_ground_back);
 
-        logESRBottom2 ->SetVisAttributes(RSolid); 
+        logESRBottom2 ->SetVisAttributes(RSolid);
         logESRRight2 ->SetVisAttributes(Gr1Solid);
         logESRTop2 ->SetVisAttributes(RSolid);
         logESRLeft2 ->SetVisAttributes(RSolid);
@@ -1214,12 +1381,12 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_ground);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceRight2Back", PhyESRRight2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceTop2Back", PhyESRTop2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceLeft2Back", PhyESRLeft2, PhyCsI1, OpESRSurface_ground_back);
 
-        logESRBottom2 ->SetVisAttributes(Gr1Solid); 
+        logESRBottom2 ->SetVisAttributes(Gr1Solid);
         logESRRight2 ->SetVisAttributes(RSolid);
         logESRTop2 ->SetVisAttributes(RSolid);
         logESRLeft2 ->SetVisAttributes(RSolid);
@@ -1230,18 +1397,18 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight2",PhyCsI1,PhyESRRight2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceTop2",PhyCsI1,PhyESRTop2,OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft2",PhyCsI1,PhyESRLeft2,OpESRSurface_ground);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceBot2Back", PhyESRBottom2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceRight2Back", PhyESRRight2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceTop2Back", PhyESRTop2, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceLeft2Back", PhyESRLeft2, PhyCsI1, OpESRSurface_ground_back);
 
-        //logESRBottom2 ->SetVisAttributes(RSolid); 
+        //logESRBottom2 ->SetVisAttributes(RSolid);
         //logESRRight2 ->SetVisAttributes(RSolid);
         //logESRTop2 ->SetVisAttributes(RSolid);
         //logESRLeft2 ->SetVisAttributes(RSolid);
         logESRLeft2 ->SetVisAttributes(RWire);
-        logESRBottom2->SetVisAttributes(RWire); 
+        logESRBottom2->SetVisAttributes(RWire);
         logESRRight2->SetVisAttributes(RWire);
         logESRTop2->SetVisAttributes(RWire);
         logESRLeft2->SetVisAttributes(RWire);
@@ -1252,11 +1419,11 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     //    new G4LogicalBorderSurface("ESRSurfaceRight1", PhyCsI1, PhyESRRight1,  OpESRSurface_ground);
     //    new G4LogicalBorderSurface("ESRSurfaceTop1",   PhyCsI1, PhyESRTop1,    OpESRSurface_polished);
     //    new G4LogicalBorderSurface("ESRSurfaceLeft1",  PhyCsI1, PhyESRLeft1,   OpESRSurface_polished);
-    //    
+    //
     //    new G4LogicalBorderSurface("ESRSurfaceRight1Back", PhyESRRight1,  PhyCsI1, OpESRSurface_ground_back);
 
     //    logESRLeft1->SetVisAttributes(RWire);
-    //    logESRBottom1->SetVisAttributes(RWire); 
+    //    logESRBottom1->SetVisAttributes(RWire);
     //    logESRRight1->SetVisAttributes(RWire);
     //    logESRTop1->SetVisAttributes(RWire);
     //    logESRLeft1->SetVisAttributes(RWire);
@@ -1267,14 +1434,14 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight1", PhyCsI1, PhyESRRight1,  OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceTop1",   PhyCsI1, PhyESRTop1,    OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft1",  PhyCsI1, PhyESRLeft1,   OpESRSurface_ground);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceBot1Back",   PhyESRBottom1, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceRight1Back", PhyESRRight1,  PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceTop1Back",   PhyESRTop1,    PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceLeft1Back",  PhyESRLeft1,   PhyCsI1, OpESRSurface_ground_back);
 
         logESRLeft1->SetVisAttributes(RWire);
-        logESRBottom1->SetVisAttributes(RWire); 
+        logESRBottom1->SetVisAttributes(RWire);
         logESRRight1->SetVisAttributes(RWire);
         logESRTop1->SetVisAttributes(RWire);
         logESRLeft1->SetVisAttributes(RWire);
@@ -1285,12 +1452,12 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight1", PhyCsI1, PhyESRRight1,  OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceTop1",   PhyCsI1, PhyESRTop1,    OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft1",  PhyCsI1, PhyESRLeft1,   OpESRSurface_polished);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceRight1Back", PhyESRRight1,  PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceTop1Back",   PhyESRTop1,    PhyCsI1, OpESRSurface_ground_back);
 
         logESRLeft1->SetVisAttributes(RWire);
-        logESRBottom1->SetVisAttributes(RWire); 
+        logESRBottom1->SetVisAttributes(RWire);
         logESRRight1->SetVisAttributes(RWire);
         logESRTop1->SetVisAttributes(RWire);
         logESRLeft1->SetVisAttributes(RWire);
@@ -1301,13 +1468,13 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface("ESRSurfaceRight1", PhyCsI1, PhyESRRight1,  OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceTop1",   PhyCsI1, PhyESRTop1,    OpESRSurface_ground);
         new G4LogicalBorderSurface("ESRSurfaceLeft1",  PhyCsI1, PhyESRLeft1,   OpESRSurface_polished);
-        
+
         //new G4LogicalBorderSurface("ESRSurfaceBot1Back",   PhyESRBottom1, PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceRight1Back", PhyESRRight1,  PhyCsI1, OpESRSurface_ground_back);
         //new G4LogicalBorderSurface("ESRSurfaceTop1Back",   PhyESRTop1,    PhyCsI1, OpESRSurface_ground_back);
 
         logESRLeft1->SetVisAttributes(RWire);
-        logESRBottom1->SetVisAttributes(RWire); 
+        logESRBottom1->SetVisAttributes(RWire);
         logESRRight1->SetVisAttributes(RWire);
         logESRTop1->SetVisAttributes(RWire);
         logESRLeft1->SetVisAttributes(RWire);
@@ -1324,19 +1491,19 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     G4double RefractiveIndex_pmt[num] = {1.48};
 
 
-    G4MaterialPropertiesTable *PmtOpTable = new G4MaterialPropertiesTable();	
+    G4MaterialPropertiesTable *PmtOpTable = new G4MaterialPropertiesTable();
     PmtOpTable->AddProperty("REFLECTIVITY", Ephoton, Reflectivity_pmt, num);
     PmtOpTable->AddProperty("EFFICIENCY",   Ephoton, Efficiency_pmt,   num);
     PmtOpTable->AddProperty("RINDEX", Ephoton, RefractiveIndex_pmt, num);
     OpPmtSurface->SetMaterialPropertiesTable(PmtOpTable);
-    
+
     //APD surface
     G4OpticalSurface *opApdSurface = new G4OpticalSurface("opApdSurface");
     opApdSurface->SetType(dielectric_metal);
     opApdSurface->SetFinish(polished);
     //opApdSurface->SetModel(glisur);
     opApdSurface->SetModel(unified);
-    
+
 #ifndef NOREFLECTOR
     G4double reflectivityApd[num] = {0.0};
     //double reflectivityApd[num] = {0.35872};
@@ -1481,19 +1648,19 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 
         //back esr
         G4Box* sldEsrBackBulk = new G4Box(
-                "sldEsrBackBulk", 
-                outputCsI[4]+ESRThickness, 
-                outputCsI[3]+ESRThickness, 
+                "sldEsrBackBulk",
+                outputCsI[4]+ESRThickness,
+                outputCsI[3]+ESRThickness,
                 ESRThickness/2.0);
         //G4Box* sldThickEpoxy = new G4Box(
-        //        "sldThickEpoxy", 
-        //        CeramicWidth/2.0 - 1.0e-3*mm, 
-        //        CeramicHeight/2.0 - 1.0e-3*mm, 
+        //        "sldThickEpoxy",
+        //        CeramicWidth/2.0 - 1.0e-3*mm,
+        //        CeramicHeight/2.0 - 1.0e-3*mm,
         //        100.0*GlassThickness/2.0);
         G4Box* sldThickEpoxy = new G4Box(
-                "sldThickEpoxy", 
-                CeramicWidth/2.0, 
-                CeramicHeight/2.0, 
+                "sldThickEpoxy",
+                CeramicWidth/2.0,
+                CeramicHeight/2.0,
                 10.0*cm/2.0);
         G4SubtractionSolid* sldEsrBack = new G4SubtractionSolid(
                 "sldEsrBack", sldEsrBackBulk, sldThickEpoxy);
@@ -1502,8 +1669,8 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 #ifndef NOREFLECTOR
         G4VPhysicalVolume* phyEsrBack = new G4PVPlacement(
                 0, G4ThreeVector(
-                    -outputCsI[4], 
-                    outputCsI[3], 
+                    -outputCsI[4],
+                    outputCsI[3],
                     -ESRThickness/2.0),
                 logEsrBack, "phyEsrBack", logWorld, false, 0);
 #endif /*NOREFLECTOR*/
@@ -1514,8 +1681,8 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 #ifndef NOREFLECTOR
         G4VPhysicalVolume* phyEsrBackTopLayer = new G4PVPlacement(
                 0, G4ThreeVector(
-                    -outputCsI[4], 
-                    outputCsI[3], 
+                    -outputCsI[4],
+                    outputCsI[3],
                     -ESRThickness*1.5),
                 logEsrBackTopLayer, "phyEsrBackTopLayer", logWorld, false, 0);
 #endif /*NOREFLECTOR*/
@@ -1558,37 +1725,40 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         //        logApd, "phyApd", logWorld, false, 0);
 #ifndef NOREFLECTOR
         G4ThreeVector posApd1 = G4ThreeVector(
-                -outputCsI[4], 
-                outputCsI[3]-APDSide/2.0-APDGap/2.0, 
+                -outputCsI[4],
+                outputCsI[3]-APDSide/2.0-APDGap/2.0,
                 -siliconeRubberThickness-EpoxyThickness-APDThickness/2.0);
 #else
         G4double csiApdGap = 3.0*cm;
         G4ThreeVector posApd1 = G4ThreeVector(
-                -outputCsI[4], 
-                outputCsI[3]-APDSide/2.0-APDGap/2.0, 
+                -outputCsI[4],
+                outputCsI[3]-APDSide/2.0-APDGap/2.0,
                 -siliconeRubberThickness-EpoxyThickness-thicknessScale*APDThickness/2.0 - csiApdGap);
 #endif /*NOREFLECTOR*/
+#ifndef LAST
         G4ThreeVector posApd2 = G4ThreeVector(
-                -outputCsI[4], 
-                outputCsI[3]+APDSide/2.0+APDGap/2.0, 
+                -outputCsI[4],
+                outputCsI[3]+APDSide/2.0+APDGap/2.0,
                 -siliconeRubberThickness-EpoxyThickness-APDThickness/2.0);
 
         G4VPhysicalVolume* phyApd1 = new G4PVPlacement(
                         0, posApd1, logApd, "phyApd1", logWorld, false, 0);
+#endif //LAST
 #ifndef NOREFLECTOR
-        G4VPhysicalVolume* phyApd2 = new G4PVPlacement(
-                        0, posApd2, logApd, "phyApd2", logWorld, false, 0);
+#ifndef LAST
+        G4VPhysicalVolume* phyApd2 = new G4PVPlacement(0, posApd2, logApd, "phyApd2", logWorld, false, 0);
+#endif //LAST
 #endif /*NOREFLECTOR*/
 
         //ceramic transition vectors
         G4ThreeVector transEpoxy(0, 0, CeramicThickness/2.0-EpoxyThickness/2.0);
         G4ThreeVector transApd1(
-                0, 
-                APDSide/2.0+APDGap/2.0, 
+                0,
+                APDSide/2.0+APDGap/2.0,
                 CeramicThickness/2.0-EpoxyThickness-APDThickness/2.0);
         G4ThreeVector transApd2(
-                0, 
-                -APDSide/2.0-APDGap/2.0, 
+                0,
+                -APDSide/2.0-APDGap/2.0,
                 CeramicThickness/2.0-EpoxyThickness-APDThickness/2.0);
 
         //ceramic geometry
@@ -1604,13 +1774,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
                 sldCeramic2ApdOut, Ceramic, "logCeramic2ApdOut", 0, 0, 0);
 
 #ifndef NOREFLECTOR
-        G4VPhysicalVolume* phyCeramic2ApdOut = new G4PVPlacement(
-                0, 
-                G4ThreeVector(
-                    -outputCsI[4], 
-                    outputCsI[3], 
-                    -siliconeRubberThickness-CeramicThickness/2.0),
-                logCeramic2ApdOut, "phyCeramic2ApdOut", logWorld, false, 0);
+        G4VPhysicalVolume* phyCeramic2ApdOut = new G4PVPlacement(0,G4ThreeVector(-outputCsI[4],outputCsI[3],-siliconeRubberThickness-CeramicThickness/2.0),logCeramic2ApdOut, "phyCeramic2ApdOut", logWorld, false, 0);
 #endif /*NOREFLECTOR*/
 
         new G4LogicalSkinSurface("apdSurface", logApd, OpPmtSurface);
@@ -1630,7 +1794,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         new G4LogicalBorderSurface(
                 "esrBackEpoxySurface", phyEpoxy, phyEsrBack, OpESRSurface_polished);
         //new G4LogicalSkinSurface("esrBackSurface", logEsrBack, OpESRSurface_polished);
-        
+
         //new G4LogicalBorderSurface("esrBackSurfaceBack", phyEsrBack, PhyCsI1,    OpESRSurface_polished_back);
         new G4LogicalBorderSurface(
                 "esrBackSurfaceTopLayer", phyEsrBack, phyEsrBackTopLayer, OpESRSurfaceTop_polished);
@@ -1638,31 +1802,36 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         //new G4LogicalSkinSurface("logLeakPlugSurface", logLeakPlug, OpESRSurface_polished);
         new G4LogicalBorderSurface(
                 "leakPlugEpoxySurface", phyEpoxy, phyLeakPlug, OpESRSurface_polished);
-        
+
         logEsrBack->SetVisAttributes(GWire);
         phyEsrBack->CheckOverlaps();
         //phyLeakPlug->CheckOverlaps();
         logCeramic2ApdOut->SetVisAttributes(BWire);
         logEpoxy->SetVisAttributes(RBWire);
 #endif /*NOREFLECTOR*/
+#ifndef LAST
         logApd->SetVisAttributes(YSolid);
 
         G4cout
             << ">>>> APD1 position: " << posApd1
             << "\n>>>> APD2 position: " << posApd2
             << G4endl;
+#endif //LAST
 #ifndef NOREFLECTOR
         phyEpoxy->CheckOverlaps();
         phyApd2->CheckOverlaps();
         phyCeramic2ApdOut->CheckOverlaps();
 #endif /*NOREFLECTOR*/
+#ifndef LAST
         phyApd1->CheckOverlaps();
-
+#endif //LAST
+#ifndef LAST
         G4SDManager* SDman = G4SDManager::GetSDMpointer();// is G4manager class for sensitive detectors
         if (!pmt_SD)
         {
             pmt_SD = new LcPMTSD("PMT1");
             SDman->AddNewDetector(pmt_SD);
+
 #ifdef NOREFLECTOR
  #ifdef TRACES
             if (!csiAbs_SD)
@@ -1673,6 +1842,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
  #endif /*TRACES*/
 #endif /*NOREFLECTOR*/
         }
+#endif //LAST
 #ifdef PHOTON_COUNTER
         if (!photonCounterSD)
         {
@@ -1691,6 +1861,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 #endif /*NOREFLECTOR*/
 
     }
+#ifndef LAST
     else if (detType == 7)
     {
         //G4Box* SldPmt = new G4Box("PMT",outputCsI[4],outputCsI[3],PMTThickness/2.0);
@@ -1724,9 +1895,9 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 
         //back esr
         //G4Box* sldEsrBackBulk = new G4Box(
-        //        "sldEsrBackBulk", 
-        //        outputCsI[4]+ESRThickness, 
-        //        outputCsI[3]+ESRThickness, 
+        //        "sldEsrBackBulk",
+        //        outputCsI[4]+ESRThickness,
+        //        outputCsI[3]+ESRThickness,
         //        ESRThickness/2.0);
         //G4Box* sldThickEpoxy = new G4Box(
         //        "sldThickEpoxy", CeramicWidth/2.0, CeramicHeight/2.0, 100.0*GlassThickness/2.0);
@@ -1736,8 +1907,8 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 
         //G4VPhysicalVolume* phyEsrBack = new G4PVPlacement(
         //        0, G4ThreeVector(
-        //            -outputCsI[4], 
-        //            outputCsI[3], 
+        //            -outputCsI[4],
+        //            outputCsI[3],
         //            -ESRThickness/2.0),
         //        logEsrBack, "phyEsrBack", logWorld, false, 0);
 
@@ -1746,8 +1917,8 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 
         //G4VPhysicalVolume* phyEsrBackTopLayer = new G4PVPlacement(
         //        0, G4ThreeVector(
-        //            -outputCsI[4], 
-        //            outputCsI[3], 
+        //            -outputCsI[4],
+        //            outputCsI[3],
         //            -ESRThickness*1.5),
         //        logEsrBackTopLayer, "phyEsrBackTopLayer", logWorld, false, 0);
 
@@ -1761,20 +1932,20 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         //        0, G4ThreeVector(-outputCsI[4], outputCsI[3], -GlassThickness-PMTThickness/2.0),
         //        logApd, "phyApd", logWorld, false, 0);
         //G4ThreeVector posApd1 = G4ThreeVector(
-        //        -outputCsI[4], 
-        //        outputCsI[3]-APDSide/2.0-APDGap/2.0, 
+        //        -outputCsI[4],
+        //        outputCsI[3]-APDSide/2.0-APDGap/2.0,
         //        -siliconeRubberThickness-EpoxyThickness-APDThickness/2.0);
         //G4ThreeVector posApd2 = G4ThreeVector(
-        //        -outputCsI[4], 
-        //        outputCsI[3]+APDSide/2.0+APDGap/2.0, 
+        //        -outputCsI[4],
+        //        outputCsI[3]+APDSide/2.0+APDGap/2.0,
         //        -siliconeRubberThickness-EpoxyThickness-APDThickness/2.0);
         G4ThreeVector posApd1 = G4ThreeVector(
-                -outputCsI[4], 
-                outputCsI[3]-outputCsI[3]/2.0, 
+                -outputCsI[4],
+                outputCsI[3]-outputCsI[3]/2.0,
                 -siliconeRubberThickness-EpoxyThickness-APDThickness/2.0);
         G4ThreeVector posApd2 = G4ThreeVector(
-                -outputCsI[4], 
-                outputCsI[3]+outputCsI[3]/2.0+APDGap/2.0, 
+                -outputCsI[4],
+                outputCsI[3]+outputCsI[3]/2.0+APDGap/2.0,
                 -siliconeRubberThickness-EpoxyThickness-APDThickness/2.0);
 
         G4VPhysicalVolume* phyApd1 = new G4PVPlacement(
@@ -1785,20 +1956,20 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
         //ceramic transition vectors
         G4ThreeVector transEpoxy(0, 0, CeramicThickness/2.0-EpoxyThickness/2.0);
         //G4ThreeVector transApd1(
-        //        0, 
-        //        APDSide/2.0+APDGap/2.0, 
+        //        0,
+        //        APDSide/2.0+APDGap/2.0,
         //        CeramicThickness/2.0-EpoxyThickness-APDThickness/2.0);
         //G4ThreeVector transApd2(
-        //        0, 
-        //        -APDSide/2.0-APDGap/2.0, 
+        //        0,
+        //        -APDSide/2.0-APDGap/2.0,
         //        CeramicThickness/2.0-EpoxyThickness-APDThickness/2.0);
         G4ThreeVector transApd1(
-                0, 
-                outputCsI[3]/2.0, 
+                0,
+                outputCsI[3]/2.0,
                 CeramicThickness/2.0-EpoxyThickness-APDThickness/2.0);
         G4ThreeVector transApd2(
-                0, 
-                -outputCsI[3]/2.0, 
+                0,
+                -outputCsI[3]/2.0,
                 CeramicThickness/2.0-EpoxyThickness-APDThickness/2.0);
 
         //ceramic geometry
@@ -1816,10 +1987,10 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
                 sldCeramic2ApdOut, Ceramic, "logCeramic2ApdOut", 0, 0, 0);
 
         G4VPhysicalVolume* phyCeramic2ApdOut = new G4PVPlacement(
-                0, 
+                0,
                 G4ThreeVector(
-                    -outputCsI[4], 
-                    outputCsI[3], 
+                    -outputCsI[4],
+                    outputCsI[3],
                     -siliconeRubberThickness-CeramicThickness/2.0),
                 logCeramic2ApdOut, "phyCeramic2ApdOut", logWorld, false, 0);
 
@@ -1872,6 +2043,8 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     //logCsI1 ->SetVisAttributes(Gr1Solid);
     logCsI1 ->SetVisAttributes(BWire);
 
+
+#endif //LAST
 #ifndef NOREFLECTOR
     //logESRFront ->SetVisAttributes(Gr1Solid);
     //logESRRight1 ->SetVisAttributes(Gr1Solid);
@@ -1884,9 +2057,9 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
     logESRLeft1->SetVisAttributes(GWire);
     logESRTop1->SetVisAttributes(GWire);
 #endif /*NOREFLECTOR*/
-
+#ifndef LAST
     PhyCsI1->CheckOverlaps();
-
+#endif //LAST
 #ifndef NOREFLECTOR
     //PhyPmtgl->CheckOverlaps();
     //PhyPmt->CheckOverlaps();
@@ -1905,7 +2078,7 @@ G4VPhysicalVolume* LcDetectorConstruction::Construct(){
 #endif /*PHOTON_COUNTER*/
 
     return PhyWorld;
-}
+
 }
 
 //-------------------------------------------------------------
@@ -1915,7 +2088,7 @@ void trapezeCsI(G4double *data, G4double *output)
     G4double Xmax = data[1]-((data[1]-data[0])/(data[5]-data[4]))*data[5];
     G4double Ymax = data[3]-((data[3]-data[2])/(data[5]-data[4]))*data[5];
     //vector linking the center of both rectangular surfaces
-    G4double AB = sqrt(pow(((Xmax-data[1])/2.0),2.0)+pow(((Ymax-data[3])/2.0),2.0)+pow(data[5],2.0)); 
+    G4double AB = sqrt(pow(((Xmax-data[1])/2.0),2.0)+pow(((Ymax-data[3])/2.0),2.0)+pow(data[5],2.0));
     G4double ABprim = sqrt(pow(((Xmax-data[1])/2.0),2.0)+pow(((Ymax-data[3])/2.0),2.0));
 
     G4double thetarad = acos(data[5]/AB) *rad;
@@ -1950,7 +2123,7 @@ void trapezeLeft(G4double *dataCsI, G4double *output, G4double ESRThickness, G4d
     G4double outputCsI[10] = {0.0};
     trapezeCsI(dataCsI, outputCsI);// = outputCsI
 
-    G4double length = sqrt(pow((outputCsI[4]*2.0-dataCsI[1]),2.0)+pow(dataCsI[5],2.0)); 
+    G4double length = sqrt(pow((outputCsI[4]*2.0-dataCsI[1]),2.0)+pow(dataCsI[5],2.0));
     G4double slopex = (dataCsI[1]-dataCsI[0])/(dataCsI[5]-dataCsI[4]);
     G4double slopey = (dataCsI[3]-dataCsI[2])/(dataCsI[5]-dataCsI[4]);
 
@@ -1976,7 +2149,7 @@ void trapezeTop(G4double *dataCsI, G4double *output, G4double ESRThickness, G4do
     G4double outputCsI[10] = {0.0};
     trapezeCsI(dataCsI, outputCsI);// = outputCsI
 
-    G4double length = sqrt(pow((outputCsI[3]*2.0-outputCsI[5]*2.0),2.0)+pow(dataCsI[5],2.0)); 
+    G4double length = sqrt(pow((outputCsI[3]*2.0-outputCsI[5]*2.0),2.0)+pow(dataCsI[5],2.0));
     G4double slopex = (dataCsI[1]-dataCsI[0])/(dataCsI[5]-dataCsI[4]);
     G4double slopey = (dataCsI[3]-dataCsI[2])/(dataCsI[5]-dataCsI[4]);
 

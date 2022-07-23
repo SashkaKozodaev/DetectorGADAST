@@ -81,10 +81,10 @@ G4bool LcPhotonCounterSD::ProcessHits(G4Step* aStep, G4TouchableHistory* )
     G4double edep = aStep->GetTotalEnergyDeposit();
     
     LcPMTHit* newHit = new LcPMTHit();
-#ifndef NOREFLECTOR
+#if !defined(NOREFLECTOR) || defined(LAST)
     newHit->SetWavelength(1.2398/edep/1000.);//conversion of photon energy to wavelength: 
                                              //lambda=hbar*c/E
-#else
+#elif !defined(LAST)
     newHit->SetWavelength(1234.8/aStep->GetTrack()->GetTotalEnergy());
 #endif /*NOREFLECTOR*/
     newHit->SetTrackLength(aStep->GetTrack()->GetTrackLength());

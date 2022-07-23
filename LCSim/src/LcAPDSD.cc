@@ -86,6 +86,9 @@ G4bool LcAPDSD::ProcessHits_constStep( const G4Step* aStep,G4TouchableHistory*)
 #else
    newHit->SetWavelength(1239.8/aStep->GetTrack()->GetTotalEnergy());
 #endif /*NOREFLECTOR*/
+#ifdef LAST
+   newHit->SetWavelength(1.2398/edep/1000.);
+#endif //LAST
    newHit->SetTrackLength(aStep->GetTrack()->GetTrackLength());
    newHit->SetTrackID(aStep->GetTrack()->GetTrackID());
    //   G4cout<<newHit->GetTrackLength()<<G4endl;
